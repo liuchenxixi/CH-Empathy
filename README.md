@@ -1,73 +1,86 @@
-# CH-Empathy
+# CH-Empathy v1
 
-## 项目简介
+CH-Empathy v1 is a weak-empathy resource built from an IRI seed survey and a CGSS2023-compatible social-variable schema. This release package provides public documentation, metadata, reconstruction scripts, benchmark scripts, and aggregate validation results for reproducibility review.
 
-CH-Empathy 是一个致力于提升人工智能同理心和人文关怀能力的项目。
+This GitHub copy is a temporary public mirror prepared before the formal Dataverse release. After the Dataverse record is published, the archived DOI should be used as the primary citation and access point.
 
-## 功能特性
+## Repository contents
 
-- 🤖 AI 同理心模型
-- 💬 自然对话交互
-- 🎯 人性化响应
-- 🌐 多语言支持
+- Metadata for semantic variables, recoding rules, one-hot feature names, and variable descriptions.
+- Scripts for reconstructing CGSS2023-derived feature tables from an authorized local CGSS2023 copy.
+- Teacher-model, benchmark, TabNet, and construct-validity scripts.
+- Aggregate benchmark and validation result tables used by the accompanying paper.
+- Split configuration for reproducing the reported benchmark protocol.
+- Citation, license, datasheet, and data-access documentation.
 
-## 快速开始
+## Data availability
 
-### 环境要求
+This public package does **not** redistribute:
 
-- Python 3.8+
-- Git
+- CGSS2023 raw data;
+- CGSS row-level derived tables;
+- raw seed-survey records.
 
-### 安装步骤
+CGSS2023 data must be obtained from the official CGSS provider under its original access and redistribution terms. Users with authorized CGSS2023 access can run the reconstruction scripts locally to reproduce the aligned feature tables.
 
-```bash
-# 克隆项目
-git clone https://github.com/liuchenxixi/CH-Empathy.git
+Seed-survey row-level records are not included because they may contain sensitive demographic, socioeconomic, and psychological variables. See `data_access_terms.md` for the access and acceptable-use statement.
 
-# 进入项目目录
-cd CH-Empathy
+## Basic reproduction workflow
 
-# 安装依赖（如果有的话）
-pip install -r requirements.txt
+1. Download and unzip `CH-Empathy-v1.zip`.
+2. Obtain authorized CGSS2023 data from the official provider.
+3. Edit `examples/example_config.yaml` with the local CGSS2023 data path and output directory.
+4. Reconstruct the CGSS2023-compatible feature table:
+
+   ```bash
+   python scripts/reconstruct_cgss2023.py --config examples/example_config.yaml
+   ```
+
+5. Build the internal three-class weak-empathy labels:
+
+   ```bash
+   python scripts/build_mi_internal_3class.py --config examples/example_config.yaml
+   ```
+
+6. Run benchmark and TabNet evaluation scripts as needed:
+
+   ```bash
+   python scripts/evaluate_benchmark.py --config examples/example_config.yaml
+   python scripts/train_tabnet.py --config examples/example_config.yaml
+   ```
+
+The included `results/` directory contains aggregate tables from the prepared release. Reproduction of row-level feature tables requires authorized access to CGSS2023 and local reconstruction.
+
+## Citation
+
+If you use this resource, please cite the formal Dataverse DOI once it becomes available.
+
+Temporary citation before DOI registration:
+
+```text
+CH-Empathy v1: A Weak-Empathy Resource with CGSS2023-Compatible Social Variables.
+Version 1.0.0. GitHub temporary public mirror, 2026.
 ```
 
-### 使用方法
+After Dataverse publication, replace the temporary citation with:
 
-```bash
-# 运行项目
-python main.py
+```text
+[Author Name]. CH-Empathy v1: A Weak-Empathy Resource with CGSS2023-Compatible Social Variables.
+Version 1.0.0. Dataverse. DOI: [TO_BE_ADDED].
 ```
 
-## 项目结构
+## License
 
+The code and scripts are released under the MIT License. Documentation, metadata, and aggregate result tables are released under CC BY 4.0 unless otherwise stated.
+
+This license does not apply to CGSS2023 raw data or any restricted third-party data. Users are responsible for complying with the original CGSS access and redistribution terms.
+
+## Contact
+
+For questions about this resource, please contact:
+
+```text
+Chenxi Liu
+Nanjing Normal University
+13782380982@163.com
 ```
-CH-Empathy/
-├── README.md
-├── requirements.txt
-├── src/
-│   └── main.py
-└── docs/
-    └── README.md
-```
-
-## 贡献指南
-
-欢迎提交 Issue 和 Pull Request！
-
-1. Fork 本仓库
-2. 创建特性分支 (`git checkout -b feature/AmazingFeature`)
-3. 提交更改 (`git commit -m 'Add some AmazingFeature'`)
-4. 推送到分支 (`git push origin feature/AmazingFeature`)
-5. 开启 Pull Request
-
-## 许可证
-
-本项目采用 MIT 许可证 - 详见 [LICENSE](LICENSE) 文件
-
-## 联系方式
-
-如有任何问题或建议，欢迎联系我们！
-
----
-
-**更新时间**: 2026年6月7日
